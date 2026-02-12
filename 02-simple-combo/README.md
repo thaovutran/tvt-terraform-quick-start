@@ -3,7 +3,7 @@ The tiny example of the long jouney.
 
 ## Versions used in the course
 ```sh
-- Terraform    - "1.6.1"
+- Terraform    - "1.14.5"
 - AWS provider - ">= 5.0"
 ```
 
