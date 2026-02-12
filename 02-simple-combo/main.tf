@@ -6,6 +6,7 @@ variable vpc_cidr_block {}
 variable subnet_cidr_block {}
 variable avail_zone {}
 variable env_prefix {}
+variable my_public_ip {}
 
 resource "aws_vpc" "myapp-vpc" {
   cidr_block = var.vpc_cidr_block
@@ -64,6 +65,36 @@ resource "aws_default_route_table" "main-route-table" {
 }
 
 resource "aws_route_table_association" "asc-rtb-subnet" {
-  subnet_id      = aws_subnet.myapp-subnet-01.id
-  route_table_id = aws_default_route_table.main-route-table.id
+  subnet_id         = aws_subnet.myapp-subnet-01.id
+  route_table_id    = aws_default_route_table.main-route-table.id
+}
+
+resource "aws_security_group" "myapp-sg" {
+  name              = "myapp-sg"
+  description       = "The main security group of my application"
+  vpc_id            = aws_vpc.myapp-vpc.id
+
+  ingress {
+    description     = "Allows SSH access to my public IP"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "TCP"
+    cidr_blocks     = [var.my_public_ip]
+  }
+
+  ingress {
+    description     = "Allows web access to all"
+    from_port       = 8080
+    to_port         = 8080
+    protocol        = "TCP"
+    cidr_blocks     = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port       = 0
+    to_port         = 0
+    protocol        = "-1"
+    cidr_blocks     = ["0.0.0.0/0"]
+    prefix_list_ids = []
+  }
 }
