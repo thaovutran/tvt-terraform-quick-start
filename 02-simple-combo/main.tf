@@ -120,6 +120,30 @@ resource "aws_instance" "myapp-server" {
 
   user_data = file("entry-script.sh")
   user_data_replace_on_change = true
+
+  # provisioner "file" {
+  #   source = "entry-script.sh"
+  #   destination = "/home/ec2-user/entry-script.sh"
+
+  #   connection {
+  #     type = "ssh"
+  #     user = "ec2-user"
+  #     host = self.public_ip
+  #     private_key = file(var.private_key_path)
+  #   }
+  # }
+
+  # provisioner "remote-exec" {
+  #   inline = [
+  #     "ls -lh /home/ec2-user/entry-script.sh",
+  #     "md5sum /home/ec2-user/entry-script.sh",
+  #     "/home/ec2-user/entry-script.sh"
+  #   ]
+  # }
+
+  # provisioner "local-exec" {
+  #   command = "echo ${self.public_dns} > ec2-output.log"
+  # }
 }
 
 output "aws_ami_id" {

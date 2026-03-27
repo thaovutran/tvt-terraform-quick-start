@@ -6,3 +6,4 @@ variable my_public_ip {}
 variable ec2_instance_type {}
 variable ec2_ssh_key {}
 variable public_key_path {}
+variable private_key_path {}
