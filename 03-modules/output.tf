@@ -1,7 +1,7 @@
 output "myappsrv-ami_id" {
-  value = data.aws_ami.latest-amazon-linux-image.id
+  value = module.myapp-server.myappsrv-ami_id
 }
 
 output "myappsrv-public_ip" {
-  value = aws_instance.myapp-server.public_ip
+  value = module.myapp-server.myappsrv-public_ip
 }

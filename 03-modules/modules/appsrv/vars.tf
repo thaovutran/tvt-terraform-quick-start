@@ -1,0 +1,9 @@
+variable "vpc_id" {}
+variable "subnet_id" {}
+variable "avail_zone" {}
+variable "env_prefix" {}
+variable "my_public_ip" {}
+variable "public_key_path" {}
+variable "ec2_ami_name" {}
+variable "ec2_instance_type" {}
+variable "ec2_entry_script" {}
