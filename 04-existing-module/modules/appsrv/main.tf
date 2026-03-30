@@ -36,6 +36,7 @@ resource "aws_security_group" "myapp-sg" {
 data "aws_ami" "latest-amazon-linux-image" {
   most_recent = true
   owners      = ["amazon"]
+
   filter {
     name      = "name"
     values    = [var.ec2_ami_name]
