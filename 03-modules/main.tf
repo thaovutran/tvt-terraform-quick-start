@@ -1,23 +1,15 @@
-resource "aws_vpc" "myapp-vpc" {
-  cidr_block = var.vpc_cidr_block
-  tags = {
-    Name: "${var.env_prefix}-vpc"
-  }
-}
-
-module "myapp-subnet" {
-  source                 = "./modules/subnet"
-  vpc_id                 = aws_vpc.myapp-vpc.id
-  avail_zone             = var.avail_zone
+module "myapp-network" {
+  source                 = "./modules/network"
+  vpc_cidr_block         = var.vpc_cidr_block
   subnet_cidr_block      = var.subnet_cidr_block
-  default_route_table_id = aws_vpc.myapp-vpc.default_route_table_id
+  avail_zone             = var.avail_zone
   env_prefix             = var.env_prefix
 }
 
 module "myapp-server" {
   source                 = "./modules/appsrv"
-  vpc_id                 = aws_vpc.myapp-vpc.id
-  subnet_id              = module.myapp-subnet.subnet.id
+  vpc_id                 = module.myapp-network.vpc.id
+  subnet_id              = module.myapp-network.subnet.id
   avail_zone             = var.avail_zone
   ec2_instance_type      = var.ec2_instance_type
   ec2_ami_name           = var.ec2_ami_name
